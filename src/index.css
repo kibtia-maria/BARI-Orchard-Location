@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* Leaflet Custom Styles */
+.leaflet-container {
+  font-family: inherit;
+  background-color: #022c22 !important;
+}
+
+/* Custom Leaflet Tooltip */
+.leaflet-tooltip.custom-leaflet-tooltip {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(16, 185, 129, 0.5) !important;
+  color: #e2e8f0 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+  padding: 0.25rem 0.5rem !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(15, 23, 42, 0.95) !important;
+}
+.leaflet-tooltip-bottom:before {
+  border-bottom-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+/* Custom Popup Card */
+.custom-popup-card .leaflet-popup-content-wrapper {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  padding: 0.25rem !important;
+}
+
+.custom-popup-card .leaflet-popup-tip {
+  background-color: #0f172a !important;
+}
+
+.custom-popup-card .leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  padding: 8px !important;
+}
+
+.custom-popup-card .leaflet-popup-close-button:hover {
+  color: #ffffff !important;
+}
+
+/* Custom DivIcons */
+.custom-office-marker, .custom-orchard-marker {
+  background: transparent !important;
+  border: none !important;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "BARI Orchards GIS Portal",
+  "description": "Geographical Information System for orchards and research stations of Bangladesh Agriculture Research Institute (BARI), featuring interactive Upazila mapping, office & orchard exploration, and admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
