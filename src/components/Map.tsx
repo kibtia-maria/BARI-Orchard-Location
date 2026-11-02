@@ -501,7 +501,7 @@ export const MapComponent: React.FC<MapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[480px] sm:h-[560px] lg:h-[620px] rounded-2xl overflow-hidden shadow-xl border border-emerald-800/80 bg-slate-950">
+    <div className="relative w-full h-[520px] sm:h-[600px] lg:h-[680px] rounded-2xl overflow-hidden shadow-md border border-slate-300 bg-slate-100">
       {/* Leaflet Map Div */}
       <div ref={mapContainerRef} className="w-full h-full z-10" />
 
@@ -511,38 +511,38 @@ export const MapComponent: React.FC<MapProps> = ({
         <button
           onClick={handleResetView}
           title="Reset to Whole Bangladesh View"
-          className="bg-emerald-950/90 hover:bg-emerald-900 text-white p-2 rounded-xl shadow-lg border border-emerald-700/80 backdrop-blur-md transition-all flex items-center gap-1.5 text-xs font-medium"
+          className="bg-white/95 hover:bg-slate-100 text-slate-800 p-2 rounded-xl shadow-md border border-slate-300 backdrop-blur-md transition-all flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
         >
-          <RotateCcw className="w-4 h-4 text-emerald-400" />
+          <RotateCcw className="w-4 h-4 text-emerald-700" />
           <span className="hidden sm:inline">Whole Map</span>
         </button>
 
         {/* Layer Toggle Toggles */}
-        <div className="bg-emerald-950/90 backdrop-blur-md p-2 rounded-xl shadow-lg border border-emerald-700/80 flex flex-col gap-1.5 text-xs">
-          <label className="flex items-center gap-1.5 text-emerald-200 cursor-pointer select-none">
+        <div className="bg-white/95 backdrop-blur-md p-2.5 rounded-xl shadow-md border border-slate-300 flex flex-col gap-1.5 text-xs">
+          <label className="flex items-center gap-1.5 text-slate-700 cursor-pointer select-none font-medium">
             <input
               type="checkbox"
               checked={showBoundaries}
               onChange={e => setShowBoundaries(e.target.checked)}
-              className="rounded text-emerald-600 focus:ring-emerald-500 bg-emerald-900 border-emerald-700"
+              className="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
             />
             <span>Upazila Borders</span>
           </label>
-          <label className="flex items-center gap-1.5 text-emerald-200 cursor-pointer select-none">
+          <label className="flex items-center gap-1.5 text-slate-700 cursor-pointer select-none font-medium">
             <input
               type="checkbox"
               checked={showOffices}
               onChange={e => setShowOffices(e.target.checked)}
-              className="rounded text-emerald-600 focus:ring-emerald-500 bg-emerald-900 border-emerald-700"
+              className="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
             />
             <span>BARI Offices</span>
           </label>
-          <label className="flex items-center gap-1.5 text-emerald-200 cursor-pointer select-none">
+          <label className="flex items-center gap-1.5 text-slate-700 cursor-pointer select-none font-medium">
             <input
               type="checkbox"
               checked={showOrchards}
               onChange={e => setShowOrchards(e.target.checked)}
-              className="rounded text-emerald-600 focus:ring-emerald-500 bg-emerald-900 border-emerald-700"
+              className="rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
             />
             <span>Fruit Orchards</span>
           </label>
@@ -550,24 +550,24 @@ export const MapComponent: React.FC<MapProps> = ({
       </div>
 
       {/* Map Legend (Bottom Left) */}
-      <div className="absolute bottom-3 left-3 z-20 bg-slate-950/90 backdrop-blur-md p-2.5 rounded-xl shadow-lg border border-emerald-800/80 text-[11px] text-slate-300 max-w-[260px] hidden sm:block">
-        <div className="font-semibold text-xs text-white mb-1.5 flex items-center gap-1">
-          <Info className="w-3.5 h-3.5 text-emerald-400" />
+      <div className="absolute bottom-3 left-3 z-20 bg-white/95 backdrop-blur-md p-2.5 rounded-xl shadow-md border border-slate-300 text-[11px] text-slate-700 max-w-[260px] hidden sm:block">
+        <div className="font-bold text-xs text-slate-900 mb-1.5 flex items-center gap-1">
+          <Info className="w-3.5 h-3.5 text-emerald-600" />
           <span>Map Legend</span>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-emerald-900 border-2 border-emerald-400 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-amber-400 rounded-sm"></div>
+            <div className="w-4 h-4 rounded bg-emerald-900 border border-amber-400 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 bg-amber-400 rounded-xs"></div>
             </div>
             <span>BARI Office / Research Station</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3.5 h-3.5 rounded-full bg-emerald-600 ring-2 ring-white"></div>
+            <div className="w-3.5 h-3.5 rounded-full bg-emerald-600 ring-2 ring-white shadow-xs"></div>
             <span>Fruit Orchard Location</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-2 rounded border border-emerald-500 bg-emerald-500/20"></div>
+            <div className="w-4 h-2 rounded border border-emerald-600 bg-emerald-500/20"></div>
             <span>Upazila Administrative Boundary</span>
           </div>
         </div>

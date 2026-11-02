@@ -350,8 +350,33 @@ export const INITIAL_ORCHARDS: Orchard[] = [
   }
 ];
 
+const baseUrl = import.meta.env.BASE_URL || './';
+const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+export const INITIAL_GALLERY_IMAGES = [
+  {
+    id: "img_mango_orchard",
+    url: `${cleanBase}assets/images/bari_mango_orchard.jpg`,
+    title: "BARI Mango Research Field",
+    caption: "BARI Mango-4 evaluation rows with scientists at Central Horticulture Research Center, Gazipur."
+  },
+  {
+    id: "img_citrus_orchard",
+    url: `${cleanBase}assets/images/bari_citrus_orchard.jpg`,
+    title: "BARI Citrus & Malta Field",
+    caption: "Citrus Research Station, Joydebpur: Evaluation of BARI Malta-1 sweet orange cultivars."
+  },
+  {
+    id: "img_jackfruit_orchard",
+    url: `${cleanBase}assets/images/bari_jackfruit_orchard.jpg`,
+    title: "BARI Jackfruit Germplasm Unit",
+    caption: "Genetic Resources Unit: High-yield BARI Kathal trees under scientific evaluation."
+  }
+];
+
 const STORAGE_KEY_OFFICES = 'bari_orchards_offices_v1';
 const STORAGE_KEY_ORCHARDS = 'bari_orchards_data_v1';
+const STORAGE_KEY_GALLERY = 'bari_orchards_gallery_v1';
 
 export function getStoredOffices(): BARIOffice[] {
   try {
@@ -389,11 +414,35 @@ export function saveStoredOrchards(orchards: Orchard[]): void {
   }
 }
 
-export function resetToDefaults(): { offices: BARIOffice[]; orchards: Orchard[] } {
+export function getStoredGalleryImages(): typeof INITIAL_GALLERY_IMAGES {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_GALLERY);
+    if (saved) return JSON.parse(saved);
+  } catch (e) {
+    console.error('Failed reading gallery images from localStorage', e);
+  }
+  return INITIAL_GALLERY_IMAGES;
+}
+
+export function saveStoredGalleryImages(images: typeof INITIAL_GALLERY_IMAGES): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_GALLERY, JSON.stringify(images));
+  } catch (e) {
+    console.error('Failed saving gallery images to localStorage', e);
+  }
+}
+
+export function resetToDefaults(): {
+  offices: BARIOffice[];
+  orchards: Orchard[];
+  galleryImages: typeof INITIAL_GALLERY_IMAGES;
+} {
   localStorage.removeItem(STORAGE_KEY_OFFICES);
   localStorage.removeItem(STORAGE_KEY_ORCHARDS);
+  localStorage.removeItem(STORAGE_KEY_GALLERY);
   return {
     offices: INITIAL_OFFICES,
-    orchards: INITIAL_ORCHARDS
+    orchards: INITIAL_ORCHARDS,
+    galleryImages: INITIAL_GALLERY_IMAGES
   };
 }

@@ -24,7 +24,16 @@ export interface Orchard {
   areaHector: number;
   dateOfPlanting: string;
   varieties: FruitVariety[];
+  images?: string[];
   notes?: string;
+}
+
+export interface OrchardImage {
+  id: string;
+  url: string;
+  title: string;
+  caption?: string;
+  orchardId?: string;
 }
 
 export interface BARIOffice {

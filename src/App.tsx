@@ -7,8 +7,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Navbar } from './components/Navbar';
 import { FilterBar } from './components/FilterBar';
 import { MapComponent } from './components/Map';
-import { RegionalStatsBar } from './components/RegionalStatsBar';
-import { DetailsPanel } from './components/DetailsPanel';
+import { RightPanel } from './components/RightPanel';
 import { AdminModal } from './components/AdminModal';
 import {
   BARIOffice,
@@ -21,15 +20,18 @@ import {
   saveStoredOffices,
   getStoredOrchards,
   saveStoredOrchards,
+  getStoredGalleryImages,
+  saveStoredGalleryImages,
   resetToDefaults
 } from './data/initialData';
 import { calculateAggregatedStats, exportOrchardsToCSV } from './utils/stats';
-import { Loader2, Globe, Shield, ExternalLink, Leaf } from 'lucide-react';
+import { Loader2, Globe, Leaf } from 'lucide-react';
 
 export default function App() {
   // Stored Data State
   const [offices, setOffices] = useState<BARIOffice[]>(() => getStoredOffices());
   const [orchards, setOrchards] = useState<Orchard[]>(() => getStoredOrchards());
+  const [galleryImages, setGalleryImages] = useState(() => getStoredGalleryImages());
 
   // Geographic Boundary Data
   const [geoJsonData, setGeoJsonData] = useState<UpazilaGeoJSON | null>(null);
@@ -48,6 +50,7 @@ export default function App() {
 
   // Admin Modal State
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [adminInitialTab, setAdminInitialTab] = useState<'orchards' | 'offices' | 'gallery' | 'importExport'>('orchards');
   const [editingOrchardForAdmin, setEditingOrchardForAdmin] = useState<Orchard | null>(null);
 
   // Load Hierarchy and Upazila GeoJSON on mount
@@ -147,10 +150,34 @@ export default function App() {
     }
   };
 
+  const handleSaveGalleryImage = (image: { id: string; url: string; title: string; caption: string }) => {
+    setGalleryImages(prev => {
+      const idx = prev.findIndex(img => img.id === image.id);
+      let updated;
+      if (idx >= 0) {
+        updated = [...prev];
+        updated[idx] = image;
+      } else {
+        updated = [image, ...prev];
+      }
+      saveStoredGalleryImages(updated);
+      return updated;
+    });
+  };
+
+  const handleDeleteGalleryImage = (id: string) => {
+    setGalleryImages(prev => {
+      const updated = prev.filter(img => img.id !== id);
+      saveStoredGalleryImages(updated);
+      return updated;
+    });
+  };
+
   const handleResetData = () => {
     const defaults = resetToDefaults();
     setOffices(defaults.offices);
     setOrchards(defaults.orchards);
+    setGalleryImages(defaults.galleryImages);
     setSelectedOffice(null);
     setSelectedOrchard(null);
     setSelectedDistrict('');
@@ -192,13 +219,11 @@ export default function App() {
     setSelectedUpazila('');
     setSelectedOrchard(null);
 
-    // If district is cleared, clear office as well
     if (!district) {
       setSelectedOffice(null);
       return;
     }
 
-    // If the district has an office, focus on it if desired, or let region speak
     const matchingOffices = offices.filter(
       o => o.district.toLowerCase() === district.toLowerCase()
     );
@@ -214,7 +239,6 @@ export default function App() {
     setSelectedUpazila(upazila);
     setSelectedOrchard(null);
 
-    // If there is an office in this upazila, focus on it
     if (upazila && selectedDistrict) {
       const matching = offices.find(
         o =>
@@ -291,7 +315,8 @@ export default function App() {
     const payload = {
       timestamp: new Date().toISOString(),
       offices,
-      orchards
+      orchards,
+      galleryImages
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -303,13 +328,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
-      {/* Top Institute Header */}
+    <div className="min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+      {/* Top Header with BARI Logo */}
       <Navbar
         offices={offices}
         orchards={orchards}
         onOpenAdmin={() => {
           setEditingOrchardForAdmin(null);
+          setAdminInitialTab('orchards');
           setIsAdminOpen(true);
         }}
         onResetData={handleResetData}
@@ -338,16 +364,16 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
         {/* Loading Indicator for Shapefile GeoJSON */}
         {isLoadingGeo && (
-          <div className="mb-4 bg-emerald-950/70 border border-emerald-700/60 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-300">
+          <div className="mb-4 bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-800">
             <div className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+              <Loader2 className="w-4 h-4 animate-spin text-emerald-700" />
               <span>Loading Bangladesh Upazila Administrative Boundaries (464 Upazilas)...</span>
             </div>
-            <span className="text-[11px] text-emerald-400 hidden sm:inline">GIS Shapefile Render</span>
+            <span className="text-[11px] text-emerald-700 hidden sm:inline font-medium">GIS Shapefile Render</span>
           </div>
         )}
 
-        {/* Top Split Grid: Map on Left, Details Beside on Right */}
+        {/* 2-Column Grid: Map on Left, RightPanel (with 3 Layers) on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* Map Column (7 cols on desktop) */}
           <div className="lg:col-span-7 flex flex-col space-y-4">
@@ -368,37 +394,30 @@ export default function App() {
               geoJsonData={geoJsonData}
               currentBasemap={currentBasemap}
             />
+          </div>
 
-            {/* Region Summary Statistics Displayed Below Map */}
-            <RegionalStatsBar
+          {/* Right Column: 3-Layer Panel (5 cols on desktop) */}
+          <div className="lg:col-span-5 sticky top-24">
+            <RightPanel
               stats={aggregatedStats}
               selectedDistrict={selectedDistrict}
               selectedUpazila={selectedUpazila}
-              officesInRegion={filteredOffices}
-              onSelectOffice={office => {
-                setSelectedOffice(office);
-                setSelectedOrchard(null);
-              }}
-              selectedOffice={selectedOffice}
-            />
-          </div>
-
-          {/* Details & Varieties Column Beside Map (5 cols on desktop) */}
-          <div className="lg:col-span-5 sticky top-24">
-            <DetailsPanel
               selectedOffice={selectedOffice}
               selectedOrchard={selectedOrchard}
               onSelectOffice={setSelectedOffice}
               onSelectOrchard={setSelectedOrchard}
               orchards={filteredOrchards}
               offices={filteredOffices}
-              stats={aggregatedStats}
-              selectedDistrict={selectedDistrict}
-              selectedUpazila={selectedUpazila}
               onEditOrchard={orchard => {
                 setEditingOrchardForAdmin(orchard);
+                setAdminInitialTab('orchards');
                 setIsAdminOpen(true);
               }}
+              onOpenAdminWithImages={() => {
+                setAdminInitialTab('gallery');
+                setIsAdminOpen(true);
+              }}
+              galleryImages={galleryImages}
             />
           </div>
         </div>
@@ -422,23 +441,27 @@ export default function App() {
         districts={districts}
         hierarchy={hierarchy}
         initialEditOrchard={editingOrchardForAdmin}
+        galleryImages={galleryImages}
+        onSaveGalleryImage={handleSaveGalleryImage}
+        onDeleteGalleryImage={handleDeleteGalleryImage}
+        initialTab={adminInitialTab}
       />
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-slate-900 py-6 text-xs text-slate-500 mt-10">
+      <footer className="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 mt-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Leaf className="w-4 h-4 text-emerald-500" />
-            <span>
-              Bangladesh Agricultural Research Institute (BARI) • Horticulture & Germplasm GIS
+          <div className="flex items-center gap-2 text-slate-700">
+            <Leaf className="w-4 h-4 text-emerald-600" />
+            <span className="font-medium">
+              Bangladesh Agricultural Research Institute (BARI) • Fruit Orchard Locations & Germplasm GIS
             </span>
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex items-center gap-4 text-slate-500">
             <span>Projection: WGS84 (EPSG:4326)</span>
             <span>•</span>
-            <span className="flex items-center gap-1 text-emerald-400">
+            <span className="flex items-center gap-1 text-emerald-700 font-medium">
               <Globe className="w-3.5 h-3.5" />
-              <span>Ready for GitHub Pages</span>
+              <span>Ready for GitHub Hosting</span>
             </span>
           </div>
         </div>
