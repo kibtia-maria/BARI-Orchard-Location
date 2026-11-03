@@ -180,6 +180,9 @@ export const INITIAL_ORCHARDS: Orchard[] = [
     areaAcre: 1.5,
     areaHector: 0.607,
     dateOfPlanting: "2006-08-15",
+    images: [
+      "./assets/images/bari_mango_orchard.jpg"
+    ],
     varieties: [
       { fruit: "Mango", variety: "Bari Aam -3", plants: 18, date: "2006-08-15" }
     ]
@@ -214,6 +217,9 @@ export const INITIAL_ORCHARDS: Orchard[] = [
     areaHector: 2.0,
     areaAcre: 4.94,
     dateOfPlanting: "2021-07-15",
+    images: [
+      "./assets/images/bari_jackfruit_orchard.jpg"
+    ],
     varieties: [
       { fruit: "Kathal", variety: "Bari Kathal-6", plants: 7, date: "2021-07-15" },
       { fruit: "Kathal", variety: "Bari kathal1", plants: 20, date: "2021-07-15" },
@@ -233,6 +239,10 @@ export const INITIAL_ORCHARDS: Orchard[] = [
     areaHector: 0.081,
     areaAcre: 0.20,
     dateOfPlanting: "2021-08-01",
+    images: [
+      "./assets/images/bari_citrus_orchard.jpg",
+      "./assets/images/bari_mango_orchard.jpg"
+    ],
     varieties: [
       { fruit: "Mango", variety: "BARI Aam-3", plants: 24, date: "2021-08-01" },
       { fruit: "Mango", variety: "BARI Aam-4", plants: 18, date: "2021-08-01" },
@@ -257,6 +267,9 @@ export const INITIAL_ORCHARDS: Orchard[] = [
     areaHector: 0.291,
     areaAcre: 0.72,
     dateOfPlanting: "2013-06-15",
+    images: [
+      "./assets/images/bari_citrus_orchard.jpg"
+    ],
     varieties: [
       { fruit: "Lebu", variety: "BARI Lebu-6", plants: 200, date: "2013-06-15" },
       { fruit: "Lebu", variety: "BARI Lebu-5", plants: 20, date: "2013-06-15" },
@@ -399,7 +412,14 @@ export function saveStoredOffices(offices: BARIOffice[]): void {
 export function getStoredOrchards(): Orchard[] {
   try {
     const saved = localStorage.getItem(STORAGE_KEY_ORCHARDS);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed: Orchard[] = JSON.parse(saved);
+      const initialMap = new Map(INITIAL_ORCHARDS.map(o => [o.id, o.images]));
+      return parsed.map(o => ({
+        ...o,
+        images: o.images && o.images.length > 0 ? o.images : (initialMap.get(o.id) || [])
+      }));
+    }
   } catch (e) {
     console.error('Failed reading orchards from localStorage', e);
   }

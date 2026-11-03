@@ -598,6 +598,103 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     </div>
                   </div>
 
+                  {/* Orchard Photos Management (Specific to this Orchard) */}
+                  <div className="mt-4 pt-3 border-t border-slate-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                        <Camera className="w-4 h-4 text-emerald-700" />
+                        <span>Photos for this Orchard ({editingOrchard.images?.length || 0})</span>
+                      </span>
+                    </div>
+
+                    {/* Image URL input & quick presets */}
+                    <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 text-xs">
+                      <div className="flex gap-2">
+                        <input
+                          id="new-orchard-image-input"
+                          type="text"
+                          placeholder="Paste image URL (e.g. https://... or ./assets/images/sample.jpg)"
+                          className="flex-1 bg-white text-slate-800 px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const inp = document.getElementById('new-orchard-image-input') as HTMLInputElement;
+                            if (inp && inp.value.trim()) {
+                              const cur = editingOrchard.images || [];
+                              setEditingOrchard({ ...editingOrchard, images: [...cur, inp.value.trim()] });
+                              inp.value = '';
+                            } else {
+                              alert('Please enter an image URL.');
+                            }
+                          }}
+                          className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-semibold cursor-pointer shrink-0"
+                        >
+                          + Add Photo
+                        </button>
+                      </div>
+
+                      {/* Sample Presets */}
+                      <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500 pt-1">
+                        <span>Quick Presets:</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const cur = editingOrchard.images || [];
+                            setEditingOrchard({ ...editingOrchard, images: [...cur, './assets/images/bari_mango_orchard.jpg'] });
+                          }}
+                          className="px-2 py-0.5 bg-white text-slate-700 rounded border border-slate-200 hover:border-emerald-500 hover:text-emerald-700 cursor-pointer"
+                        >
+                          + Mango Research Plot
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const cur = editingOrchard.images || [];
+                            setEditingOrchard({ ...editingOrchard, images: [...cur, './assets/images/bari_citrus_orchard.jpg'] });
+                          }}
+                          className="px-2 py-0.5 bg-white text-slate-700 rounded border border-slate-200 hover:border-emerald-500 hover:text-emerald-700 cursor-pointer"
+                        >
+                          + Citrus & Malta Field
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const cur = editingOrchard.images || [];
+                            setEditingOrchard({ ...editingOrchard, images: [...cur, './assets/images/bari_jackfruit_orchard.jpg'] });
+                          }}
+                          className="px-2 py-0.5 bg-white text-slate-700 rounded border border-slate-200 hover:border-emerald-500 hover:text-emerald-700 cursor-pointer"
+                        >
+                          + Jackfruit Germplasm Unit
+                        </button>
+                      </div>
+
+                      {/* Current photos thumbnails */}
+                      {editingOrchard.images && editingOrchard.images.length > 0 ? (
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-200/80">
+                          {editingOrchard.images.map((imgUrl, i) => (
+                            <div key={i} className="relative group rounded-lg overflow-hidden border border-slate-200 bg-slate-100 aspect-4/3">
+                              <img src={imgUrl} alt="Orchard photo" className="w-full h-full object-cover" />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updated = editingOrchard.images!.filter((_, idx) => idx !== i);
+                                  setEditingOrchard({ ...editingOrchard, images: updated });
+                                }}
+                                className="absolute top-1 right-1 p-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer shadow-xs"
+                                title="Remove photo"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-slate-400 italic">No photos currently attached to this orchard.</p>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Form Action Buttons */}
                   <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
                     <button

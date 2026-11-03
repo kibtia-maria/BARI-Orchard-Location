@@ -501,7 +501,7 @@ export const MapComponent: React.FC<MapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[520px] sm:h-[600px] lg:h-[680px] rounded-2xl overflow-hidden shadow-md border border-slate-300 bg-slate-100">
+    <div className="relative w-full h-full min-h-[380px] rounded-2xl overflow-hidden shadow-xs border border-slate-300 bg-slate-100 flex-1">
       {/* Leaflet Map Div */}
       <div ref={mapContainerRef} className="w-full h-full z-10" />
 

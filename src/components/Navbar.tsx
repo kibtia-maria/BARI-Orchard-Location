@@ -53,9 +53,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <h1 className="text-base sm:text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
                 Fruit Orchard Locations
-                <span className="text-xs font-normal text-emerald-200/90 hidden lg:inline">
-                  (Geographical Location & Germplasm Database)
-                </span>
               </h1>
             </div>
           </div>

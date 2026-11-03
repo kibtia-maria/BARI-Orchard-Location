@@ -328,7 +328,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+    <div className="h-screen max-h-screen flex flex-col overflow-hidden bg-slate-100 text-slate-800 font-sans selection:bg-emerald-600 selection:text-white">
       {/* Top Header with BARI Logo */}
       <Navbar
         offices={offices}
@@ -360,23 +360,23 @@ export default function App() {
         onSearchChange={setSearchTerm}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
-        {/* Loading Indicator for Shapefile GeoJSON */}
+      {/* Main Content Area - Fully contained, zero page scrolling */}
+      <main className="flex-1 min-h-0 px-3 sm:px-5 py-2 flex flex-col overflow-hidden max-w-7xl w-full mx-auto">
+        {/* Subtle Loading Notification for Shapefile GeoJSON */}
         {isLoadingGeo && (
-          <div className="mb-4 bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-800">
+          <div className="mb-2 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5 flex items-center justify-between text-xs text-emerald-800 shrink-0">
             <div className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-emerald-700" />
-              <span>Loading Bangladesh Upazila Administrative Boundaries (464 Upazilas)...</span>
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-700" />
+              <span className="text-[11px]">Loading Bangladesh Upazila Administrative Boundaries (464 Upazilas)...</span>
             </div>
-            <span className="text-[11px] text-emerald-700 hidden sm:inline font-medium">GIS Shapefile Render</span>
+            <span className="text-[10px] text-emerald-700 font-medium">GIS Render</span>
           </div>
         )}
 
-        {/* 2-Column Grid: Map on Left, RightPanel (with 3 Layers) on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        {/* 2-Column Grid: Map on Left, RightPanel with Tabs on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 w-full h-full min-h-0 flex-1">
           {/* Map Column (7 cols on desktop) */}
-          <div className="lg:col-span-7 flex flex-col space-y-4">
+          <div className="lg:col-span-7 h-full min-h-0 flex flex-col">
             <MapComponent
               offices={offices}
               orchards={orchards}
@@ -396,8 +396,8 @@ export default function App() {
             />
           </div>
 
-          {/* Right Column: 3-Layer Panel (5 cols on desktop) */}
-          <div className="lg:col-span-5 sticky top-24">
+          {/* Right Column: Tabbed Panel (5 cols on desktop) */}
+          <div className="lg:col-span-5 h-full min-h-0 flex flex-col overflow-hidden">
             <RightPanel
               stats={aggregatedStats}
               selectedDistrict={selectedDistrict}
@@ -417,7 +417,6 @@ export default function App() {
                 setAdminInitialTab('gallery');
                 setIsAdminOpen(true);
               }}
-              galleryImages={galleryImages}
             />
           </div>
         </div>
@@ -447,23 +446,21 @@ export default function App() {
         initialTab={adminInitialTab}
       />
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 mt-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-slate-700">
-            <Leaf className="w-4 h-4 text-emerald-600" />
-            <span className="font-medium">
-              Bangladesh Agricultural Research Institute (BARI) • Fruit Orchard Locations & Germplasm GIS
-            </span>
-          </div>
-          <div className="flex items-center gap-4 text-slate-500">
-            <span>Projection: WGS84 (EPSG:4326)</span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-emerald-700 font-medium">
-              <Globe className="w-3.5 h-3.5" />
-              <span>Ready for GitHub Hosting</span>
-            </span>
-          </div>
+      {/* Compact Single-Line Footer */}
+      <footer className="bg-white border-t border-slate-200 px-4 py-1 text-[11px] text-slate-500 shrink-0 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-slate-600">
+          <Leaf className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="font-medium">
+            Bangladesh Agricultural Research Institute (BARI) • Fruit Orchard Locations
+          </span>
+        </div>
+        <div className="flex items-center gap-3 text-slate-400">
+          <span>WGS84 (EPSG:4326)</span>
+          <span>•</span>
+          <span className="flex items-center gap-1 text-emerald-700 font-medium">
+            <Globe className="w-3 h-3" />
+            <span>GitHub Pages Ready</span>
+          </span>
         </div>
       </footer>
     </div>
