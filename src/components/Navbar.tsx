@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo & Institute Title */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-white flex items-center justify-center shadow-md border border-emerald-200/90 p-1 shrink-0 overflow-hidden">
+            <div className="w-13 h-13 sm:w-16 sm:h-16 rounded-xl bg-white flex items-center justify-center shadow-md border border-emerald-200/90 p-1 shrink-0 overflow-hidden">
               <img
                 src={bariLogoUrl}
                 alt="BARI Logo"

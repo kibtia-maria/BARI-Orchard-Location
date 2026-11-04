@@ -19,7 +19,6 @@ import {
   ArrowLeft,
   Edit,
   PieChart,
-  Building2,
   Camera,
   Search,
   Maximize2,
@@ -281,103 +280,95 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 </span>
               </div>
 
-              {/* 6 Interactive Metric Tiles */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {/* 1. Total Orchards -> Opens Orchards Tab */}
-                <button
-                  onClick={() => setActiveTab('orchards')}
-                  className="group text-left bg-gradient-to-br from-emerald-50 to-emerald-100/60 hover:from-emerald-100 hover:to-emerald-200/70 border border-emerald-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
-                >
-                  <div className="flex items-center justify-between text-slate-700">
-                    <span className="text-xs font-bold text-emerald-900">Total Orchards</span>
-                    <Trees className="w-4 h-4 text-emerald-700" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-emerald-900 font-mono tracking-tight flex items-baseline gap-1">
-                      {stats.totalOrchards}
-                      <ArrowRight className="w-3.5 h-3.5 text-emerald-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+              {/* Interactive Metric Tiles */}
+              <div className="space-y-2.5">
+                {/* 3 Tab Shortcut Tiles */}
+                <div className="grid grid-cols-3 gap-2.5">
+                  {/* 1. Total Orchards -> Opens Orchards Tab */}
+                  <button
+                    onClick={() => setActiveTab('orchards')}
+                    className="group text-left bg-gradient-to-br from-emerald-50 to-emerald-100/60 hover:from-emerald-100 hover:to-emerald-200/70 border border-emerald-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="flex items-center justify-between text-slate-700">
+                      <span className="text-xs font-bold text-emerald-900">Total Orchards</span>
+                      <Trees className="w-4 h-4 text-emerald-700" />
                     </div>
-                    <span className="text-[10px] text-emerald-700 font-medium">Click to open tab</span>
-                  </div>
-                </button>
+                    <div className="mt-2">
+                      <div className="text-2xl font-black text-emerald-900 font-mono tracking-tight flex items-baseline gap-1">
+                        {stats.totalOrchards}
+                        <ArrowRight className="w-3.5 h-3.5 text-emerald-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                      <span className="text-[10px] text-emerald-700 font-medium">Click to open tab</span>
+                    </div>
+                  </button>
 
-                {/* 2. Fruit Types -> Opens Fruit Types Tab */}
-                <button
-                  onClick={() => setActiveTab('fruits')}
-                  className="group text-left bg-gradient-to-br from-rose-50 to-rose-100/60 hover:from-rose-100 hover:to-rose-200/70 border border-rose-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
-                >
-                  <div className="flex items-center justify-between text-slate-700">
-                    <span className="text-xs font-bold text-rose-900">Fruit Types</span>
-                    <Apple className="w-4 h-4 text-rose-600" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-rose-800 font-mono tracking-tight flex items-baseline gap-1">
-                      {stats.totalFruitTypes}
-                      <ArrowRight className="w-3.5 h-3.5 text-rose-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                  {/* 2. Fruit Types -> Opens Fruit Types Tab */}
+                  <button
+                    onClick={() => setActiveTab('fruits')}
+                    className="group text-left bg-gradient-to-br from-rose-50 to-rose-100/60 hover:from-rose-100 hover:to-rose-200/70 border border-rose-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="flex items-center justify-between text-slate-700">
+                      <span className="text-xs font-bold text-rose-900">Fruit Types</span>
+                      <Apple className="w-4 h-4 text-rose-600" />
                     </div>
-                    <span className="text-[10px] text-rose-700 font-medium">Click to open tab</span>
-                  </div>
-                </button>
+                    <div className="mt-2">
+                      <div className="text-2xl font-black text-rose-800 font-mono tracking-tight flex items-baseline gap-1">
+                        {stats.totalFruitTypes}
+                        <ArrowRight className="w-3.5 h-3.5 text-rose-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                      <span className="text-[10px] text-rose-700 font-medium">Click to open tab</span>
+                    </div>
+                  </button>
 
-                {/* 3. Fruit Varieties -> Opens Varieties Tab */}
-                <button
-                  onClick={() => setActiveTab('varieties')}
-                  className="group text-left bg-gradient-to-br from-indigo-50 to-indigo-100/60 hover:from-indigo-100 hover:to-indigo-200/70 border border-indigo-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
-                >
-                  <div className="flex items-center justify-between text-slate-700">
-                    <span className="text-xs font-bold text-indigo-900">Varieties</span>
-                    <Dna className="w-4 h-4 text-indigo-600" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-indigo-800 font-mono tracking-tight flex items-baseline gap-1">
-                      {stats.totalVarieties}
-                      <ArrowRight className="w-3.5 h-3.5 text-indigo-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                  {/* 3. Fruit Varieties -> Opens Varieties Tab */}
+                  <button
+                    onClick={() => setActiveTab('varieties')}
+                    className="group text-left bg-gradient-to-br from-indigo-50 to-indigo-100/60 hover:from-indigo-100 hover:to-indigo-200/70 border border-indigo-200/90 rounded-xl p-3 flex flex-col justify-between transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="flex items-center justify-between text-slate-700">
+                      <span className="text-xs font-bold text-indigo-900">Varieties</span>
+                      <Dna className="w-4 h-4 text-indigo-600" />
                     </div>
-                    <span className="text-[10px] text-indigo-700 font-medium">Click to open tab</span>
-                  </div>
-                </button>
-
-                {/* 4. Total Trees */}
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs font-semibold text-slate-700">Total Trees</span>
-                    <Hash className="w-4 h-4 text-teal-600" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-teal-800 font-mono tracking-tight">
-                      {stats.totalTrees.toLocaleString()}
+                    <div className="mt-2">
+                      <div className="text-2xl font-black text-indigo-800 font-mono tracking-tight flex items-baseline gap-1">
+                        {stats.totalVarieties}
+                        <ArrowRight className="w-3.5 h-3.5 text-indigo-700 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                      <span className="text-[10px] text-indigo-700 font-medium">Click to open tab</span>
                     </div>
-                    <span className="text-[10px] text-slate-500">fruit plants</span>
-                  </div>
+                  </button>
                 </div>
 
-                {/* 5. Total Area */}
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs font-semibold text-slate-700">Total Area</span>
-                    <Ruler className="w-4 h-4 text-amber-600" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-amber-800 font-mono tracking-tight">
-                      {areaUnit === 'acre' ? stats.totalAreaAcre : stats.totalAreaHector}
+                {/* 2 Quantitative Summary Tiles */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  {/* 4. Total Trees */}
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between">
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="text-xs font-semibold text-slate-700">Total Trees</span>
+                      <Hash className="w-4 h-4 text-teal-600" />
                     </div>
-                    <span className="text-[10px] text-slate-500">
-                      {areaUnit === 'acre' ? 'Acres' : 'Hectares'}
-                    </span>
+                    <div className="mt-2">
+                      <div className="text-2xl font-black text-teal-800 font-mono tracking-tight">
+                        {stats.totalTrees.toLocaleString()}
+                      </div>
+                      <span className="text-[10px] text-slate-500">fruit plants</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* 6. BARI Offices */}
-                <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-600">
-                    <span className="text-xs font-semibold text-slate-700">BARI Offices</span>
-                    <Building2 className="w-4 h-4 text-emerald-600" />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-2xl font-black text-slate-800 font-mono tracking-tight">
-                      {stats.totalOffices}
+                  {/* 5. Total Area */}
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex flex-col justify-between">
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="text-xs font-semibold text-slate-700">Total Area</span>
+                      <Ruler className="w-4 h-4 text-amber-600" />
                     </div>
-                    <span className="text-[10px] text-slate-500">research stations</span>
+                    <div className="mt-2">
+                      <div className="text-2xl font-black text-amber-800 font-mono tracking-tight">
+                        {areaUnit === 'acre' ? stats.totalAreaAcre : stats.totalAreaHector}
+                      </div>
+                      <span className="text-[10px] text-slate-500">
+                        {areaUnit === 'acre' ? 'Acres' : 'Hectares'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

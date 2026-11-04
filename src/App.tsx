@@ -25,7 +25,7 @@ import {
   resetToDefaults
 } from './data/initialData';
 import { calculateAggregatedStats, exportOrchardsToCSV } from './utils/stats';
-import { Loader2, Globe, Leaf } from 'lucide-react';
+import { Loader2, Leaf } from 'lucide-react';
 
 export default function App() {
   // Stored Data State
@@ -454,13 +454,8 @@ export default function App() {
             Bangladesh Agricultural Research Institute (BARI) • Fruit Orchard Locations
           </span>
         </div>
-        <div className="flex items-center gap-3 text-slate-400">
+        <div className="flex items-center text-slate-400">
           <span>WGS84 (EPSG:4326)</span>
-          <span>•</span>
-          <span className="flex items-center gap-1 text-emerald-700 font-medium">
-            <Globe className="w-3 h-3" />
-            <span>GitHub Pages Ready</span>
-          </span>
         </div>
       </footer>
     </div>
